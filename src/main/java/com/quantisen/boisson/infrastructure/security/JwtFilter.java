@@ -4,14 +4,17 @@ import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.annotation.Priority;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
@@ -21,6 +24,9 @@ import java.util.Date;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class JwtFilter implements ContainerRequestFilter {
+
+    @Inject
+    private ResourceInfo resourceInfo;
 
     private static final String PUBLIC_KEY_PEM = """
             -----BEGIN PUBLIC KEY-----
@@ -66,6 +72,31 @@ public class JwtFilter implements ContainerRequestFilter {
             String role = (String) jwt.getJWTClaimsSet().getClaim("role");
             if (role == null || !(role.equals("GERANT") || role.equals("EMPLOYE") || role.equals("LIVREUR"))) {
                 abort(requestContext);
+                return;
+            }
+
+            if (resourceInfo != null) {
+                Method resourceMethod = resourceInfo.getResourceMethod();
+                Class<?> resourceClass = resourceInfo.getResourceClass();
+                AllowedRoles allowedRoles = null;
+                if (resourceMethod != null && resourceMethod.isAnnotationPresent(AllowedRoles.class)) {
+                    allowedRoles = resourceMethod.getAnnotation(AllowedRoles.class);
+                } else if (resourceClass != null && resourceClass.isAnnotationPresent(AllowedRoles.class)) {
+                    allowedRoles = resourceClass.getAnnotation(AllowedRoles.class);
+                }
+                if (allowedRoles != null) {
+                    boolean allowed = false;
+                    for (String allowedRole : allowedRoles.value()) {
+                        if (allowedRole.equals(role)) {
+                            allowed = true;
+                            break;
+                        }
+                    }
+                    if (!allowed) {
+                        requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+                        return;
+                    }
+                }
             }
 
         } catch (Exception e) {
