@@ -16,6 +16,5 @@ public class CreateMouvementSortieRequest {
     private int quantiteDemandee;
     @JsonProperty("utilisateur")
     private IdentiteDto utilisateur;
-
 }
 

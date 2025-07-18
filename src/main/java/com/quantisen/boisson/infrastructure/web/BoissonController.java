@@ -2,6 +2,7 @@ package com.quantisen.boisson.infrastructure.web;
 
 import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
 import com.quantisen.boisson.application.boisson.services.BoissonService;
+import com.quantisen.boisson.infrastructure.security.AllowedRoles;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -23,6 +24,7 @@ public class BoissonController {
     @Path("/status/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @AllowedRoles({"GERANT"})
     public Response changeBoisson(@PathParam("id") Long id){
         try{
             service.changeBoissonStatus(id);
@@ -34,6 +36,7 @@ public class BoissonController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @AllowedRoles({"GERANT"})
     public Response addBoisson(BoissonDto dto) {
         try {
             BoissonDto boisson = service.ajouterBoisson(dto);
@@ -47,6 +50,7 @@ public class BoissonController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @AllowedRoles({"GERANT"})
     public Response updateBoisson(@QueryParam("id") Long id, BoissonDto dto) {
         try {
             BoissonDto boisson = service.modifierBoisson(dto);

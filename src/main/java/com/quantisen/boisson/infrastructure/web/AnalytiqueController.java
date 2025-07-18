@@ -2,6 +2,7 @@ package com.quantisen.boisson.infrastructure.web;
 
 import com.quantisen.boisson.application.analytique.dtos.*;
 import com.quantisen.boisson.application.analytique.services.AnalyticsService;
+import com.quantisen.boisson.infrastructure.security.AllowedRoles;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -35,14 +36,15 @@ public class AnalytiqueController {
 
     @GET
     @Path("/movement-trends")
+    @AllowedRoles({"GERANT"})
     public Response getMovementTrends(@QueryParam("period") String period) {
-        // Return array of MovementTrendDto instead of single object
         List<MovementTrendDto> movementTrends = analyticsService.getMovementTrends(period);
         return Response.ok(movementTrends).build();
     }
 
     @GET
     @Path("/daily-movements")
+    @AllowedRoles({"GERANT"})
     public Response getDailyMovements(@QueryParam("start") String start, @QueryParam("end") String end) {
         DailyMovementsDto dailyMovements = analyticsService.getDailyMovements(start, end);
         return Response.ok(dailyMovements).build();
@@ -50,6 +52,7 @@ public class AnalytiqueController {
 
     @GET
     @Path("/inventory-analytics")
+    @AllowedRoles({"GERANT"})
     public Response getInventoryAnalytics() {
         InventoryAnalyticsDto analytics = analyticsService.getInventoryAnalytics();
         return Response.ok(analytics).build();
@@ -57,6 +60,7 @@ public class AnalytiqueController {
 
     @GET
     @Path("/beverage-performance")
+    @AllowedRoles({"GERANT"})
     public Response getBeveragePerformance() {
         List<TopBeverageDto> performance = analyticsService.getBeveragePerformance();
         return Response.ok(performance).build();
@@ -79,6 +83,7 @@ public class AnalytiqueController {
     @GET
     @Path("/user-activity")
     @Produces(MediaType.APPLICATION_JSON)
+    @AllowedRoles({"GERANT"})
     public Response getUserActivity() {
         return Response.ok(analyticsService.getUserActivity()).build();
     }
@@ -93,6 +98,7 @@ public class AnalytiqueController {
     @GET
     @Path("/export/excel")
     @Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    @AllowedRoles({"GERANT"})
     public Response exportDashboardExcel(@QueryParam("type") String type) {
         byte[] excel = analyticsService.exportDashboardExcel(type);
         return Response.ok(excel)

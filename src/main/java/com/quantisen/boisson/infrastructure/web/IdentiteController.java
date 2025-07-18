@@ -6,6 +6,7 @@ import com.quantisen.boisson.application.identite.requests.LoginResponse;
 import com.quantisen.boisson.application.identite.requests.PasswordRequest;
 import com.quantisen.boisson.application.identite.requests.StatusDto;
 import com.quantisen.boisson.application.identite.services.IdentiteService;
+import com.quantisen.boisson.infrastructure.security.AllowedRoles;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +22,7 @@ public class IdentiteController {
     private IdentiteService utilisateurService;
 
     @GET
+    @AllowedRoles({"GERANT"})
     public Response getAll() {
         try {
             List<IdentiteDto> dtoList = utilisateurService.getAll();
@@ -57,6 +59,7 @@ public class IdentiteController {
 
     @DELETE
     @Path("/{id}")
+    @AllowedRoles({"GERANT"})
     public Response delete(@PathParam("id") Long id) {
         boolean deleted = utilisateurService.delete(id);
         if (deleted) {
@@ -92,6 +95,7 @@ public class IdentiteController {
     @Path("/{id}/status")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @AllowedRoles({"GERANT"})
     public Response updateStatus(@PathParam("id") Long id, StatusDto dto) {
         try {
             System.out.println("Updating status for user with ID: " + id + " to status: " + dto);
