@@ -125,14 +125,15 @@ public class BoissonRepository implements BoissonPort {
         return total != null ? total : 0.0;
     }
     @Override
-    public int getTotalBoissonById(Long id) {
+    public int getTotalStockBoissonById(Long id) {
         try {
-            return em.createQuery("SELECT COUNT(b) FROM Boisson b WHERE b.id = :id", Long.class)
+            return em.createQuery(
+                    "SELECT COALESCE(SUM(l.quantiteActuelle), 0) " +
+                            "FROM Lot l WHERE l.boisson.id = :id AND l.vendable = true", Long.class)
                     .setParameter("id", id)
-                    .getSingleResult()
-                    .intValue();
+                    .getSingleResult().intValue();
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la récupération du total de boissons par ID: " + e.getMessage(), e);
+            throw new RuntimeException("Erreur lors de la récupération du stock total pour la boisson ID " + id + ": " + e.getMessage(), e);
         }
     }
 

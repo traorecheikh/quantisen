@@ -7,6 +7,7 @@ import com.quantisen.boisson.application.identite.requests.PasswordRequest;
 import com.quantisen.boisson.application.identite.requests.StatusDto;
 import com.quantisen.boisson.application.identite.services.IdentiteService;
 import com.quantisen.boisson.infrastructure.security.AllowedRoles;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/utilisateurs")
+@RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class IdentiteController {

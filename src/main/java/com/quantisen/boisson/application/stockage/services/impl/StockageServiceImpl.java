@@ -4,6 +4,7 @@ import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
 import com.quantisen.boisson.application.stockage.dtos.LotDto;
 import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.application.stockage.exceptions.*;
 import com.quantisen.boisson.application.stockage.services.StockageService;
 import com.quantisen.boisson.domaine.stockage.domainModel.LigneOperation;
 import com.quantisen.boisson.domaine.stockage.domainModel.Lot;
@@ -70,17 +71,17 @@ public class StockageServiceImpl implements StockageService {
      */
     public void sortie(Long boissonId, int quantiteDemandee, IdentiteDto user) {
         if (quantiteDemandee <= 0) {
-            throw new com.quantisen.boisson.application.stockage.exceptions.QuantiteDemandeeInvalideException();
+            throw new QuantiteDemandeeInvalideException();
         }
         if (boissonId == null) {
-            throw new com.quantisen.boisson.application.stockage.exceptions.BoissonIdInvalideException();
+            throw new BoissonIdInvalideException();
         }
         if (user == null || user.getId() == null) {
-            throw new com.quantisen.boisson.application.stockage.exceptions.UtilisateurNonAuthentifieException();
+            throw new UtilisateurNonAuthentifieException();
         }
-        int quantiteBoisson = boissonRepository.getTotalBoissonById(boissonId);
+        int quantiteBoisson = boissonRepository.getTotalStockBoissonById(boissonId);
         if(quantiteBoisson < quantiteDemandee) {
-            throw new com.quantisen.boisson.application.stockage.exceptions.StockInsuffisantException();
+            throw new StockInsuffisantException();
         }
         Mouvement sortie = Mouvement.builder()
                 .type(TypeMouvement.SORTIE)
