@@ -18,4 +18,5 @@ public interface MouvementPort {
     List<Mouvement> findAllByBoissonId(Long boissonId);
 
     List<Mouvement> findAllByUtilisateurId(Long utilisateurId);
+
 }
