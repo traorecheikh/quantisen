@@ -124,6 +124,17 @@ public class BoissonRepository implements BoissonPort {
         ).getSingleResult();
         return total != null ? total : 0.0;
     }
+    @Override
+    public int getTotalBoissonById(Long id) {
+        try {
+            return em.createQuery("SELECT COUNT(b) FROM Boisson b WHERE b.id = :id", Long.class)
+                    .setParameter("id", id)
+                    .getSingleResult()
+                    .intValue();
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération du total de boissons par ID: " + e.getMessage(), e);
+        }
+    }
 
     @Override
     public List<Boisson> findExpiredProducts() {

@@ -24,4 +24,5 @@ public interface BoissonPort {
     List<Boisson> findExpiredProducts();
 
     void changeBoissonStatus(Long id);
+    int getTotalBoissonById(Long id);
 }
