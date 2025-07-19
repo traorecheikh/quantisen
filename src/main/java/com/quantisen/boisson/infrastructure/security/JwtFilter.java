@@ -59,21 +59,44 @@ public class JwtFilter implements ContainerRequestFilter {
             RSAPublicKey publicKey = getPublicKeyFromPem(PUBLIC_KEY_PEM);
 
             JWSVerifier verifier = new RSASSAVerifier(publicKey);
+
             if (!jwt.verify(verifier)) {
                 abort(requestContext);
                 return;
             }
 
             Date exp = jwt.getJWTClaimsSet().getExpirationTime();
+
             if (exp == null || new Date().after(exp)) {
                 abort(requestContext);
                 return;
             }
+
             String role = (String) jwt.getJWTClaimsSet().getClaim("role");
+            String email = (String) jwt.getJWTClaimsSet().getClaim("email");
+            Long userId
+                    = null;
+            Object idClaim = jwt.getJWTClaimsSet().getClaim("id");
+
+            if (idClaim instanceof Number) {
+                userId = ((Number) idClaim).longValue();
+            } else if (idClaim instanceof String) {
+                try {
+                    userId = Long.parseLong((String) idClaim);
+                } catch (NumberFormatException ignored) {}
+            }
+
             if (role == null || !(role.equals("GERANT") || role.equals("EMPLOYE") || role.equals("LIVREUR"))) {
                 abort(requestContext);
                 return;
             }
+            if (email != null) {
+                requestContext.setProperty("userEmail", email);
+            }
+            if (userId != null) {
+                requestContext.setProperty("userId", userId);
+            }
+            requestContext.setProperty("userRole", role);
 
             if (resourceInfo != null) {
                 Method resourceMethod = resourceInfo.getResourceMethod();

@@ -57,7 +57,13 @@ public class JwtSession {
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .subject(utilisateur.getEmail())
+                .claim("id", utilisateur.getId())
+                .claim("email", utilisateur.getEmail())
                 .claim("role", utilisateur.getRole().name())
+                .claim("firstName", utilisateur.getFirstName())
+                .claim("lastName", utilisateur.getLastName())
+                .claim("isActive", utilisateur.isActive())
+                .claim("isFirstLogin", utilisateur.isFirstLogin())
                 .issueTime(new Date())
                 .expirationTime(Date.from(Instant.now().plusSeconds(expirationSeconds)))
                 .build();
