@@ -3,6 +3,10 @@ package com.quantisen.boisson.infrastructure.web;
 import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
 import com.quantisen.boisson.application.stockage.dtos.LotDto;
 import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.application.stockage.exceptions.BoissonIdInvalideException;
+import com.quantisen.boisson.application.stockage.exceptions.QuantiteDemandeeInvalideException;
+import com.quantisen.boisson.application.stockage.exceptions.StockInsuffisantException;
+import com.quantisen.boisson.application.stockage.exceptions.UtilisateurNonAuthentifieException;
 import com.quantisen.boisson.application.stockage.requests.CreateLotBatchRequest;
 import com.quantisen.boisson.application.stockage.requests.CreateLotRequest;
 import com.quantisen.boisson.application.stockage.requests.CreateMouvementSortieRequest;
@@ -31,7 +35,6 @@ public class StockageController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createLot(CreateLotRequest request) {
         try {
-            System.out.println("ddd");
             LigneOperationDto created = stockageService.entreeSimple(request.getLot(), request.getUtilisateur());
             return Response.status(Response.Status.CREATED).entity(created).build();
         } catch (IllegalArgumentException e) {
@@ -69,8 +72,12 @@ public class StockageController {
         try {
             stockageService.sortie(request.getBoissonId(), request.getQuantiteDemandee(), request.getUtilisateur());
             return Response.status(Response.Status.CREATED).build();
-        } catch (IllegalArgumentException e) {
+        } catch (QuantiteDemandeeInvalideException |
+                 BoissonIdInvalideException |
+                 UtilisateurNonAuthentifieException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (StockInsuffisantException e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

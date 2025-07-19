@@ -13,6 +13,7 @@ import com.quantisen.boisson.domaine.stockage.enums.TypeMouvement;
 import com.quantisen.boisson.domaine.stockage.port.LigneOperationPort;
 import com.quantisen.boisson.domaine.stockage.port.LotPort;
 import com.quantisen.boisson.domaine.stockage.port.MouvementPort;
+import com.quantisen.boisson.infrastructure.persistence.boisson.BoissonRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -29,6 +30,8 @@ public class StockageServiceImpl implements StockageService {
     private LotPort lotRepository;
     @Inject
     private MouvementPort mouvementRepository;
+    @Inject
+    BoissonRepository boissonRepository;
 
     /**
      * Entrée simple d’un lot
@@ -66,6 +69,19 @@ public class StockageServiceImpl implements StockageService {
      * /** Sortie de N unités d’une boisson (FEFO + FIFO)
      */
     public void sortie(Long boissonId, int quantiteDemandee, IdentiteDto user) {
+        if (quantiteDemandee <= 0) {
+            throw new com.quantisen.boisson.application.stockage.exceptions.QuantiteDemandeeInvalideException();
+        }
+        if (boissonId == null) {
+            throw new com.quantisen.boisson.application.stockage.exceptions.BoissonIdInvalideException();
+        }
+        if (user == null || user.getId() == null) {
+            throw new com.quantisen.boisson.application.stockage.exceptions.UtilisateurNonAuthentifieException();
+        }
+        int quantiteBoisson = boissonRepository.getTotalBoissonById(boissonId);
+        if(quantiteBoisson < quantiteDemandee) {
+            throw new com.quantisen.boisson.application.stockage.exceptions.StockInsuffisantException();
+        }
         Mouvement sortie = Mouvement.builder()
                 .type(TypeMouvement.SORTIE)
                 .quantite(quantiteDemandee)
