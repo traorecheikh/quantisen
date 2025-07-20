@@ -3,7 +3,7 @@ window.onload = function() {
 
   // Set the default OpenAPI spec URL to your deployed API
   window.ui = SwaggerUIBundle({
-    url: "https://quantisen-42615.azurewebsites.net/api/openapi.json",
+    url: "https://quantisen-api-29463.azurewebsites.net/api/openapi.json",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
