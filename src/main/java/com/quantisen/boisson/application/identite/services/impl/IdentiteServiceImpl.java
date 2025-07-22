@@ -46,8 +46,14 @@ public class IdentiteServiceImpl implements IdentiteService {
     @Override
     public boolean changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse) {
         CompteUtilisateur utilisateur = repository.findAll().stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
-        if (utilisateur != null && utilisateur.getMotDePasse() != null && utilisateur.getMotDePasse().equals(ancienMotDePasse)) {
-            utilisateur.setMotDePasse(nouveauMotDePasse);
+        Hash hash = Password.hash(nouveauMotDePasse).addRandomSalt().withArgon2();
+
+        if (utilisateur != null) {
+            boolean estValide = Password.check(ancienMotDePasse, utilisateur.getMotDePasse()).withArgon2();
+            if (!estValide) {
+                throw new RuntimeException("Email ou mot de passe incorrect");
+            }
+            utilisateur.setMotDePasse(hash.getResult());
             utilisateur.setActive(true);
             utilisateur.setFirstLogin(false);
             repository.save(utilisateur);
@@ -63,7 +69,6 @@ public class IdentiteServiceImpl implements IdentiteService {
             if (utilisateurExistant != null) {
                 throw new RuntimeException("User with email " + utilisateurExistant + " already exists.");
             } else {
-
                 Hash hash = Password.hash(utilisateurDto.getMotDePasse()).addRandomSalt().withArgon2();
                 utilisateurDto.setMotDePasse(hash.getResult());
                 CompteUtilisateur createdUser = repository.save(mapper.toEntity(utilisateurDto, true));

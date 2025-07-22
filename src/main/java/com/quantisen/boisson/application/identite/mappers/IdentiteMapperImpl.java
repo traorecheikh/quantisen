@@ -16,6 +16,7 @@ public class IdentiteMapperImpl implements IdentiteMapper {
         dto.setId(utilisateur.getId());
         dto.setEmail(utilisateur.getEmail());
         dto.setRole(utilisateur.getRole());
+        dto.setFirstLogin(utilisateur.isFirstLogin());
         dto.setCreatedAt(utilisateur.getCreatedAt());
         dto.setUpdatedAt(utilisateur.getUpdatedAt());
         dto.setActive(utilisateur.isActive());
@@ -35,6 +36,7 @@ public class IdentiteMapperImpl implements IdentiteMapper {
         utilisateur.setEmail(dto.getEmail());
         utilisateur.setRole(dto.getRole());
         utilisateur.setActive(dto.isActive());
+        utilisateur.setFirstLogin(dto.isFirstLogin());
         utilisateur.setCreatedAt(dto.getCreatedAt());
         utilisateur.setUpdatedAt(dto.getUpdatedAt());
 
