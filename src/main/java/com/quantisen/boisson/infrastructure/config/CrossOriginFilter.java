@@ -16,7 +16,8 @@ public class CrossOriginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
-        response.setHeader("Access-Control-Allow-Origin", "https://quantisen-app-98092.azurewebsites.net");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+//        response.setHeader("Access-Control-Allow-Origin", "https://quantisen-app-98092.azurewebsites.net");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");

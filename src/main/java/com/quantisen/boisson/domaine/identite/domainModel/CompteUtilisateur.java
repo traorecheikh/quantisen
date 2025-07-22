@@ -59,6 +59,7 @@ public class CompteUtilisateur {
                 .lastName(this.lastName)
                 .email(this.email)
                 .role(this.role)
+                .isFirstLogin(this.isFirstLogin)
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
