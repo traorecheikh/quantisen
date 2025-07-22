@@ -43,7 +43,7 @@ public class JwtFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String path = requestContext.getUriInfo().getPath();
-        if (path.equals("utilisateurs/login") || (path.equals("utilisateurs/register"))) {
+        if (path.equals("hello-world") || path.equals("utilisateurs/login") || (path.equals("utilisateurs/register"))) {
             return;
         }
         String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
