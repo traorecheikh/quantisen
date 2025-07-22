@@ -1,38 +1,65 @@
 <configuration>
-    <!-- Define log file directory and names -->
     <property name="LOG_DIR" value="logs"/>
     <property name="APP_NAME" value="boisson"/>
 
-    <!-- Console appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Rolling file appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${APP_NAME}.log</file>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIR}/${APP_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>30</maxHistory>
-            <totalSizeCap>3GB</totalSizeCap> <!-- optional cap -->
+            <totalSizeCap>3GB</totalSizeCap>
         </rollingPolicy>
-
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Logger for your app -->
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>https://logs-prod-012.grafana.net/loki/api/v1/push</url>
+            <auth>
+                <username>1150370</username>
+                <password>glc_eyJvIjoiMTM2OTI0MCIsIm4iOiJmdWxsLWFjY2Vzcy1sb2tpaWkiLCJrIjoiMmZpeGhVdDZyNjE0N3JwTFI1ZjhkOFUxIiwibSI6eyJyIjoidXMifX0=</password>
+            </auth>
+        </http>
+        <sender>
+            <http>
+                <connectTimeoutMs>3000</connectTimeoutMs>
+                <readTimeoutMs>5000</readTimeoutMs>
+            </http>
+        </sender>
+        <format>
+            <label>
+                <key>app</key>
+                <value>javaee</value>
+            </label>
+            <label>
+                <key>host</key>
+                <value>${HOSTNAME}</value>
+            </label>
+            <message>
+                <pattern>%msg%n</pattern>
+            </message>
+        </format>
+    </appender>
+
     <logger name="com.quantisen" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="LOKI"/>
     </logger>
 
-    <!-- Root logger for all other libs -->
+    <logger name="ROOT" level="INFO">
+        <appender-ref ref="LOKI"/>
+    </logger>
+
     <root level="WARN">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
