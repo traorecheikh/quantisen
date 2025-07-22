@@ -52,12 +52,6 @@ public class IdentiteController {
                     .build();
         }
     }
-//
-//    @PUT
-//    public Response updateUser(IdentiteDto dto) {
-//        utilisateurService.register(utilisateur);
-//        return Response.ok(IdentiteMapper.toDto(utilisateur)).build();
-//    }
 
     @DELETE
     @Path("/{id}")

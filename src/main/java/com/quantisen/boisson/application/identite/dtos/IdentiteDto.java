@@ -34,8 +34,8 @@ public class IdentiteDto {
     @JsonProperty("isActive")
     private boolean isActive;
 
-    @JsonProperty("firstLogin")
-    private boolean firstLogin;
+    @JsonProperty("isFirstLogin")
+    private boolean isFirstLogin;
 
     @JsonProperty("createdAt")
     private String createdAt;
@@ -52,7 +52,7 @@ public class IdentiteDto {
                     .lastName(this.lastName)
                     .role(this.role)
                     .isActive(this.isActive)
-                    .isFirstLogin(this.firstLogin)
+                    .isFirstLogin(this.isFirstLogin)
                     .createdAt(this.createdAt)
                     .updatedAt(this.updatedAt)
                     .build();
@@ -63,7 +63,7 @@ public class IdentiteDto {
                 .role(this.role)
                 .firstName(this.firstName)
                 .lastName(this.lastName)
-                .isFirstLogin(this.firstLogin)
+                .isFirstLogin(this.isFirstLogin)
                 .motDePasse(this.motDePasse)
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
