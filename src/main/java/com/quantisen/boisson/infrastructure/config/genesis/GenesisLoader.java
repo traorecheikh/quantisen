@@ -33,6 +33,10 @@ public class GenesisLoader implements ServletContextListener {
     @PostConstruct
     public void init() {
         try {
+            log.info("QuantiSen application started");
+            for (int i = 1; i <= 500; i++) {
+                log.info("Loki test log #{}", i);
+            }
             createUtilisateurs();
             createBoissons();
             createInventaire();
