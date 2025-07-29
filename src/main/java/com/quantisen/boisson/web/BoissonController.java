@@ -1,4 +1,4 @@
-package com.quantisen.boisson.infrastructure.web;
+package com.quantisen.boisson.web;
 
 import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
 import com.quantisen.boisson.application.boisson.services.BoissonService;

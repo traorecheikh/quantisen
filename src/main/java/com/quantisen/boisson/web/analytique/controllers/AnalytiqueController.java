@@ -1,4 +1,4 @@
-package com.quantisen.boisson.infrastructure.web;
+package com.quantisen.boisson.web.analytique.controllers;
 
 import com.quantisen.boisson.application.analytique.dtos.*;
 import com.quantisen.boisson.application.analytique.services.AnalyticsService;
