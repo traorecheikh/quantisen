@@ -1,4 +1,4 @@
-package com.quantisen.boisson.infrastructure.web;
+package com.quantisen.boisson.web;
 
 import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.application.identite.requests.IdentiteCredentialsRequest;
@@ -80,11 +80,12 @@ public class IdentiteController {
     @PATCH
     @Path("/change-password")
     public Response changePassword(@QueryParam("id") Long id, PasswordRequest passwordRequest) {
-        boolean result = utilisateurService.changerMotDePasse(id, passwordRequest.getAncienMotDePasse(), passwordRequest.getNouveauMotDePasse());
-        if (result) {
+        try{
+            utilisateurService.changerMotDePasse(id, passwordRequest.getAncienMotDePasse(), passwordRequest.getNouveauMotDePasse());
             return Response.ok().build();
+        }catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @PATCH
