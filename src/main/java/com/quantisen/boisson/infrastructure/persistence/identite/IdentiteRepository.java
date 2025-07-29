@@ -20,21 +20,11 @@ public class IdentiteRepository implements IdentitePort {
 
     @Override
     public CompteUtilisateur getByEmail(String email) {
-        EntityTransaction tx = entityManager.getTransaction();
         try {
-            if (!tx.isActive()) {
-                tx.begin();
-            }
-            entityManager.flush();
             return entityManager.createQuery("SELECT u FROM CompteUtilisateur u WHERE u.email = :email", CompteUtilisateur.class)
                     .setParameter("email", email)
-                    .setLockMode(LockModeType.PESSIMISTIC_READ)
                     .getSingleResultOrNull();
         } catch (Exception e) {
-            System.err.println("Error retrieving user by email: " + e.getMessage());
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             throw new RuntimeException("Error retrieving user by email: " + e.getMessage(), e);
 
         }

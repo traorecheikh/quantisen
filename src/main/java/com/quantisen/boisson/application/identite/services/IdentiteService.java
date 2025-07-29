@@ -9,7 +9,7 @@ import java.util.List;
 public interface IdentiteService {
     LoginResponse authentifier(String email, String motDePasse) throws Exception;
 
-    boolean changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse);
+    void changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse);
 
     IdentiteDto register(IdentiteDto utilisateurDto);
 

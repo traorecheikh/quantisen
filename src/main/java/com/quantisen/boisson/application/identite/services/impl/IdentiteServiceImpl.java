@@ -44,22 +44,26 @@ public class IdentiteServiceImpl implements IdentiteService {
     }
 
     @Override
-    public boolean changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse) {
-        CompteUtilisateur utilisateur = repository.findAll().stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
-        Hash hash = Password.hash(nouveauMotDePasse).addRandomSalt().withArgon2();
+    public void changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse) {
+        CompteUtilisateur utilisateur = repository.findById(id);
 
         if (utilisateur != null) {
+            Hash hash = Password.hash(nouveauMotDePasse).addRandomSalt().withArgon2();
             boolean estValide = Password.check(ancienMotDePasse, utilisateur.getMotDePasse()).withArgon2();
             if (!estValide) {
                 throw new RuntimeException("Email ou mot de passe incorrect");
             }
-            utilisateur.setMotDePasse(hash.getResult());
-            utilisateur.setActive(true);
-            utilisateur.setFirstLogin(false);
-            repository.save(utilisateur);
-            return true;
+            try{
+                utilisateur.setMotDePasse(hash.getResult());
+                utilisateur.setActive(true);
+                utilisateur.setFirstLogin(false);
+                repository.save(utilisateur);
+            }catch (Exception e){
+                throw new RuntimeException("erreur durant le changement de mot de passe: " + e.getMessage());
+            }
+        }else {
+            throw new RuntimeException("utilisateur est nulle");
         }
-        return false;
     }
 
     @Override
