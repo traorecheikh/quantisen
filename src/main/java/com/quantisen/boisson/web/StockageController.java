@@ -1,4 +1,4 @@
-package com.quantisen.boisson.infrastructure.web;
+package com.quantisen.boisson.web;
 
 import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
 import com.quantisen.boisson.application.stockage.dtos.LotDto;

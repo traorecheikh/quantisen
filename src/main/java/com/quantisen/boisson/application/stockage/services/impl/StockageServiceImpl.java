@@ -115,15 +115,11 @@ public class StockageServiceImpl implements StockageService {
                     .build();
             ligneOperationRepository.save(op);
             lot.setQuantiteActuelle(lot.getQuantiteActuelle() - prelevable);
-            //30 - 30 = 0
-            //30 - 15 = 15
             if (lot.getQuantiteActuelle() == prelevable) {
-                lot.setVendable(false);// Si le lot est vide, on le marque comme non vendable
+                lot.setVendable(false);
             }
             lotRepository.update(lot);
             restant -= prelevable;
-            //250 - 30 = 220
-            //220 - 30 = 190
         }
         if (restant > 0) {
             throw new IllegalStateException("Stock insuffisant pour la sortie demandée");
