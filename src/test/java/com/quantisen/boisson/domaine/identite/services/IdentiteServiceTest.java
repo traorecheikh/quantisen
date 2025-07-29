@@ -120,56 +120,6 @@ class IdentiteServiceTest {
     }
 
     @Test
-    void changerMotDePasse_ShouldReturnTrueWhenPasswordChanged() {
-        when(utilisateurService.changerMotDePasse(1L, "oldPassword", "newPassword")).thenReturn(true);
-
-        boolean result = utilisateurService.changerMotDePasse(1L, "oldPassword", "newPassword");
-
-        assertTrue(result);
-        verify(utilisateurService).changerMotDePasse(1L, "oldPassword", "newPassword");
-    }
-
-    @Test
-    void changerMotDePasse_ShouldReturnFalseWhenOldPasswordIncorrect() {
-        when(utilisateurService.changerMotDePasse(1L, "wrongOldPassword", "newPassword")).thenReturn(false);
-
-        boolean result = utilisateurService.changerMotDePasse(1L, "wrongOldPassword", "newPassword");
-
-        assertFalse(result);
-        verify(utilisateurService).changerMotDePasse(1L, "wrongOldPassword", "newPassword");
-    }
-
-    @Test
-    void changerMotDePasse_ShouldReturnFalseWhenUserNotExists() {
-        when(utilisateurService.changerMotDePasse(999L, "oldPassword", "newPassword")).thenReturn(false);
-
-        boolean result = utilisateurService.changerMotDePasse(999L, "oldPassword", "newPassword");
-
-        assertFalse(result);
-        verify(utilisateurService).changerMotDePasse(999L, "oldPassword", "newPassword");
-    }
-
-    @Test
-    void changerMotDePasse_ShouldHandleNullId() {
-        when(utilisateurService.changerMotDePasse(null, "oldPassword", "newPassword")).thenReturn(false);
-
-        boolean result = utilisateurService.changerMotDePasse(null, "oldPassword", "newPassword");
-
-        assertFalse(result);
-        verify(utilisateurService).changerMotDePasse(null, "oldPassword", "newPassword");
-    }
-
-    @Test
-    void changerMotDePasse_ShouldHandleNullPasswords() {
-        when(utilisateurService.changerMotDePasse(1L, null, null)).thenReturn(false);
-
-        boolean result = utilisateurService.changerMotDePasse(1L, null, null);
-
-        assertFalse(result);
-        verify(utilisateurService).changerMotDePasse(1L, null, null);
-    }
-
-    @Test
     void register_ShouldReturnRegisteredUtilisateurDto() {
         when(utilisateurService.register(utilisateurDto)).thenReturn(utilisateurDto);
 

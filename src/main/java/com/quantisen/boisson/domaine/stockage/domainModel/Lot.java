@@ -2,6 +2,7 @@ package com.quantisen.boisson.domaine.stockage.domainModel;
 
 import com.quantisen.boisson.application.stockage.dtos.LotDto;
 import com.quantisen.boisson.domaine.boisson.domainModel.Boisson;
+import com.quantisen.boisson.domaine.fournisseur.domainModel.Fournisseur;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +39,7 @@ public class Lot {
     @Column(nullable = false)
     private boolean vendable;
     @Column(nullable = true)
-    private String fournisseur;
+    private String fournisseurString;
     @Column(name = "date_entree", updatable = false)
     private String dateEntree;
     @Column(name = "date_peremption", updatable = false)
@@ -48,6 +49,9 @@ public class Lot {
     @ManyToOne
     @JoinColumn(name = "boisson_id")
     private Boisson boisson;
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fournisseur_id")
+    private Fournisseur fournisseur;
 
     @PrePersist
     private void createdAt() {
@@ -69,14 +73,13 @@ public class Lot {
                 .numeroLot(this.numeroLot)
                 .quantiteInitiale(this.quantiteInitiale)
                 .quantiteActuelle(this.quantiteActuelle)
-                .fournisseur(fournisseur == null ? null : fournisseur.trim())
+                .fournisseur(fournisseur == null ? null : fournisseur.toDto())
+                .fournisseurString(this.fournisseurString)
                 .dateEntree(this.dateEntree)
                 .datePeremption(this.datePeremption)
                 .vendable(this.vendable)
                 .boisson(this.boisson.toDto())
                 .build();
     }
-
-
 }
 
