@@ -1,8 +1,8 @@
-package com.quantisen.boisson.web;
+package com.quantisen.boisson.web.stockage.controllers;
 
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
-import com.quantisen.boisson.application.stockage.dtos.LotDto;
-import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
+import com.quantisen.boisson.web.stockage.dtos.MouvementDto;
 import com.quantisen.boisson.application.stockage.exceptions.BoissonIdInvalideException;
 import com.quantisen.boisson.application.stockage.exceptions.QuantiteDemandeeInvalideException;
 import com.quantisen.boisson.application.stockage.exceptions.StockInsuffisantException;
@@ -93,7 +93,7 @@ public class StockageController {
         try {
             stockageService.ajustement(request.getLotId(), request.getDelta(), request.getRaison(), request.getUtilisateur());
             return Response.status(Response.Status.CREATED).build();
-        } catch (IllegalArgumentException e) {
+        } catch (QuantiteDemandeeInvalideException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (Exception e) {
             e.printStackTrace();

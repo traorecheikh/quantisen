@@ -1,9 +1,10 @@
 package com.quantisen.boisson.application.stockage.services.impl;
 
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
-import com.quantisen.boisson.application.stockage.dtos.LotDto;
-import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.domaine.fournisseur.domainModel.Fournisseur;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
+import com.quantisen.boisson.web.stockage.dtos.MouvementDto;
 import com.quantisen.boisson.application.stockage.exceptions.*;
 import com.quantisen.boisson.application.stockage.services.StockageService;
 import com.quantisen.boisson.domaine.stockage.domainModel.LigneOperation;
@@ -47,6 +48,11 @@ public class StockageServiceImpl implements StockageService {
 
         Lot lot = nouveauLot.toEntity();
         lot.setMouvementEntree(m);
+        Fournisseur f = nouveauLot.getFournisseur().toEntity();
+        System.err.println(f.toString());
+        List<Lot> ls = new java.util.ArrayList<>(f.getLots() == null ? List.of() : f.getLots());
+        ls.add(nouveauLot.toEntity());
+        f.setLots(ls);
         LigneOperation op = LigneOperation.builder()
                 .mouvement(m)
                 .lot(lot)
@@ -95,18 +101,10 @@ public class StockageServiceImpl implements StockageService {
                 .comparing(Lot::getDatePeremption)
                 .thenComparing(Lot::getDateEntree));
 
-        int restant = quantiteDemandee; // 250 oeufs
-        // 250
+        int restant = quantiteDemandee;
         for (Lot lot : lots) {
-            //1
             if (restant == 0) break;
-            //30 // 30 // 30 // 30
-            //250 // 220 // 190 // 15
             int prelevable = Math.min(lot.getQuantiteActuelle(), restant);
-            //30
-            //30
-            //30
-            //15
 
             LigneOperation op = LigneOperation.builder()
                     .mouvement(sortie)
@@ -118,6 +116,7 @@ public class StockageServiceImpl implements StockageService {
             if (lot.getQuantiteActuelle() == prelevable) {
                 lot.setVendable(false);
             }
+
             lotRepository.update(lot);
             restant -= prelevable;
         }
@@ -140,12 +139,13 @@ public class StockageServiceImpl implements StockageService {
 
         Lot lot = lotRepository.findById(lotId)
                 .orElseThrow(() -> new IllegalArgumentException("Lot introuvable"));
-        m = mouvementRepository.save(m);
 
         int nouvelleQte = lot.getQuantiteActuelle() + delta;
         if (nouvelleQte < 0 || nouvelleQte > lot.getQuantiteInitiale()) {
-            throw new IllegalStateException("Ajustement hors bornes pour le lot");
+            throw new QuantiteDemandeeInvalideException();
         }
+        m = mouvementRepository.save(m);
+
 
         lot.setQuantiteActuelle(nouvelleQte);
         lotRepository.update(lot);

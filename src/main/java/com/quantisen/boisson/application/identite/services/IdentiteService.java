@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.identite.services;
 
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.application.identite.requests.LoginResponse;
 import com.quantisen.boisson.domaine.identite.domainModel.CompteUtilisateur;
 

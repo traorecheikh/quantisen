@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.stockage.mappers;
 
-import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.web.stockage.dtos.MouvementDto;
 import com.quantisen.boisson.domaine.stockage.domainModel.Mouvement;
 
 import java.util.List;

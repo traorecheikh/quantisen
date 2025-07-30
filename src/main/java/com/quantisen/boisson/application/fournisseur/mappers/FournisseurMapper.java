@@ -1,9 +1,13 @@
 package com.quantisen.boisson.application.fournisseur.mappers;
 
-import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
-import com.quantisen.boisson.application.fournisseur.dtos.FournisseurDto;
+import com.quantisen.boisson.domaine.stockage.domainModel.Lot;
+import com.quantisen.boisson.web.boisson.dtos.BoissonDto;
+import com.quantisen.boisson.web.fournisseur.dtos.FournisseurDto;
 import com.quantisen.boisson.domaine.boisson.domainModel.Boisson;
 import com.quantisen.boisson.domaine.fournisseur.domainModel.Fournisseur;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
+
+import java.util.List;
 
 public class FournisseurMapper {
     public static FournisseurDto toDto(Fournisseur fournisseur) {
@@ -16,12 +20,11 @@ public class FournisseurMapper {
                 .statut(fournisseur.getStatut())
                 .dateContrat(fournisseur.getDateContrat())
                 .dateResiliation(fournisseur.getDateResiliation())
-                .boissons(fournisseur.getBoissons() != null ?
-                          fournisseur.getBoissons().stream()
-                          .map(Boisson::toDto)
-                          .toList() : null)
                 .createdAt(fournisseur.getCreatedAt())
                 .updatedAt(fournisseur.getUpdatedAt())
+                .lots(fournisseur.getLots() != null ? fournisseur.getLots().stream()
+                        .map(Lot::toDto)
+                        .toList() : List.of())
                 .build();
     }
 
@@ -33,12 +36,11 @@ public class FournisseurMapper {
                 .contact(dto.getContact())
                 .adresse(dto.getAdresse())
                 .statut(dto.getStatut())
+                .lots(dto.getLots() != null ? dto.getLots().stream()
+                        .map(LotDto::toEntity)
+                        .toList() : List.of())
                 .dateContrat(dto.getDateContrat())
                 .dateResiliation(dto.getDateResiliation())
-                .boissons(dto.getBoissons() != null ?
-                          dto.getBoissons().stream()
-                          .map(BoissonDto::toEntity)
-                          .toList() : null)
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .build();

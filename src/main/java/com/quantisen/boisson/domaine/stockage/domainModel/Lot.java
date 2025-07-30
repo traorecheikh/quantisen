@@ -1,6 +1,6 @@
 package com.quantisen.boisson.domaine.stockage.domainModel;
 
-import com.quantisen.boisson.application.stockage.dtos.LotDto;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
 import com.quantisen.boisson.domaine.boisson.domainModel.Boisson;
 import com.quantisen.boisson.domaine.fournisseur.domainModel.Fournisseur;
 import jakarta.persistence.*;
@@ -38,8 +38,6 @@ public class Lot {
     private int quantiteActuelle;
     @Column(nullable = false)
     private boolean vendable;
-    @Column(nullable = true)
-    private String fournisseurString;
     @Column(name = "date_entree", updatable = false)
     private String dateEntree;
     @Column(name = "date_peremption", updatable = false)
@@ -49,7 +47,7 @@ public class Lot {
     @ManyToOne
     @JoinColumn(name = "boisson_id")
     private Boisson boisson;
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY,cascade =  CascadeType.MERGE)
     @JoinColumn(name = "fournisseur_id")
     private Fournisseur fournisseur;
 
@@ -68,18 +66,23 @@ public class Lot {
     }
 
     public LotDto toDto() {
+        return toDto(false);
+    }
+
+    /**
+     * Converts this Lot to a LotDto. If shallow is true, nested objects are not fully converted to avoid recursion.
+     */
+    public LotDto toDto(boolean shallow) {
         return LotDto.builder()
                 .id(this.id)
                 .numeroLot(this.numeroLot)
                 .quantiteInitiale(this.quantiteInitiale)
                 .quantiteActuelle(this.quantiteActuelle)
-                .fournisseur(fournisseur == null ? null : fournisseur.toDto())
-                .fournisseurString(this.fournisseurString)
+                .fournisseur(fournisseur == null ? null : (shallow ? null : fournisseur.toDto(true)))
                 .dateEntree(this.dateEntree)
                 .datePeremption(this.datePeremption)
                 .vendable(this.vendable)
-                .boisson(this.boisson.toDto())
+                .boisson(this.boisson != null ? this.boisson.toDto() : null)
                 .build();
     }
 }
-

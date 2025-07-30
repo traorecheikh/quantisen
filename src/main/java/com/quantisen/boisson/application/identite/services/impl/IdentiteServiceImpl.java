@@ -1,8 +1,9 @@
 package com.quantisen.boisson.application.identite.services.impl;
 
+import com.quantisen.boisson.application.identite.validation.PasswordValidator;
 import com.password4j.Hash;
 import com.password4j.Password;
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.application.identite.mappers.IdentiteMapper;
 import com.quantisen.boisson.application.identite.requests.LoginResponse;
 import com.quantisen.boisson.application.identite.services.IdentiteService;
@@ -45,6 +46,7 @@ public class IdentiteServiceImpl implements IdentiteService {
 
     @Override
     public void changerMotDePasse(Long id, String ancienMotDePasse, String nouveauMotDePasse) {
+        PasswordValidator.validate(nouveauMotDePasse);
         CompteUtilisateur utilisateur = repository.findById(id);
 
         if (utilisateur != null) {
@@ -73,6 +75,7 @@ public class IdentiteServiceImpl implements IdentiteService {
             if (utilisateurExistant != null) {
                 throw new RuntimeException("User with email " + utilisateurExistant + " already exists.");
             } else {
+                PasswordValidator.validate(utilisateurDto.getMotDePasse());
                 Hash hash = Password.hash(utilisateurDto.getMotDePasse()).addRandomSalt().withArgon2();
                 utilisateurDto.setMotDePasse(hash.getResult());
                 CompteUtilisateur createdUser = repository.save(mapper.toEntity(utilisateurDto, true));

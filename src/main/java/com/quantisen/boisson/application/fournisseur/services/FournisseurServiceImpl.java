@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.fournisseur.services;
 
-import com.quantisen.boisson.application.fournisseur.dtos.FournisseurDto;
+import com.quantisen.boisson.web.fournisseur.dtos.FournisseurDto;
 import com.quantisen.boisson.application.fournisseur.mappers.FournisseurMapper;
 import com.quantisen.boisson.domaine.fournisseur.domainModel.Fournisseur;
 import com.quantisen.boisson.domaine.fournisseur.enums.StatutFournisseur;

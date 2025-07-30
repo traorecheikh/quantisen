@@ -1,8 +1,8 @@
-package com.quantisen.boisson.application.stockage.dtos;
+package com.quantisen.boisson.web.stockage.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.domaine.stockage.domainModel.LigneOperation;
 import com.quantisen.boisson.domaine.stockage.domainModel.Mouvement;
 import com.quantisen.boisson.domaine.stockage.enums.TypeAjustement;

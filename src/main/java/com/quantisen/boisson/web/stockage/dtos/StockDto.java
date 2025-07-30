@@ -1,4 +1,4 @@
-package com.quantisen.boisson.application.stockage.dtos;
+package com.quantisen.boisson.web.stockage.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

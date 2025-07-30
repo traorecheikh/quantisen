@@ -1,7 +1,8 @@
-package com.quantisen.boisson.application.fournisseur.ressources;
+package com.quantisen.boisson.web.fournisseur.controllers;
 
-import com.quantisen.boisson.application.fournisseur.dtos.FournisseurDto;
+import com.quantisen.boisson.web.fournisseur.dtos.FournisseurDto;
 import com.quantisen.boisson.application.fournisseur.services.FournisseurService;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -10,10 +11,11 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 
+@RequestScoped
 @Path("/fournisseurs")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class FournisseurResource {
+public class FournisseurController {
     @Inject
     private FournisseurService fournisseurService;
 
@@ -60,6 +62,7 @@ public class FournisseurResource {
         fournisseurService.suspendreFournisseur(id);
         return Response.ok().build();
     }
+
 
     @PUT
     @Path("/{id}/reactiver")

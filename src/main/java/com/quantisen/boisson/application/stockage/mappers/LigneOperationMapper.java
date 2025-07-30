@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.stockage.mappers;
 
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
 import com.quantisen.boisson.domaine.stockage.domainModel.LigneOperation;
 
 import java.util.List;

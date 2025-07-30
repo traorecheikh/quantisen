@@ -1,6 +1,6 @@
 package com.quantisen.boisson.domaine.identite.domainModel;
 
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +31,9 @@ public class CompteUtilisateur {
     private String motDePasse;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(name = "is_first_login")
     private boolean isFirstLogin;
+    @Column(name = "is_active")
     private boolean isActive;
     private String createdAt;
     private String updatedAt;

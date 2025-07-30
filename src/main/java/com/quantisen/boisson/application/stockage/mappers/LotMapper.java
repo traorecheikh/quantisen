@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.stockage.mappers;
 
-import com.quantisen.boisson.application.stockage.dtos.LotDto;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
 import com.quantisen.boisson.domaine.stockage.domainModel.Lot;
 
 import java.util.List;

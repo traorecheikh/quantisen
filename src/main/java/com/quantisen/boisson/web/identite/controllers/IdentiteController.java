@@ -1,6 +1,6 @@
-package com.quantisen.boisson.web;
+package com.quantisen.boisson.web.identite.controllers;
 
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
 import com.quantisen.boisson.application.identite.requests.IdentiteCredentialsRequest;
 import com.quantisen.boisson.application.identite.requests.LoginResponse;
 import com.quantisen.boisson.application.identite.requests.PasswordRequest;

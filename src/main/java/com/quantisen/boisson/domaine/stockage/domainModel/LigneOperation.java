@@ -1,6 +1,6 @@
 package com.quantisen.boisson.domaine.stockage.domainModel;
 
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;

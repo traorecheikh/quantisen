@@ -1,7 +1,7 @@
 package com.quantisen.boisson.domaine.stockage.domainModel;
 
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
-import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.MouvementDto;
 import com.quantisen.boisson.domaine.identite.domainModel.CompteUtilisateur;
 import com.quantisen.boisson.domaine.stockage.enums.TypeAjustement;
 import com.quantisen.boisson.domaine.stockage.enums.TypeMouvement;

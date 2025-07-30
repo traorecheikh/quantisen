@@ -1,10 +1,10 @@
 package com.quantisen.boisson.domaine.stockage.services;
 
-import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
-import com.quantisen.boisson.application.identite.dtos.IdentiteDto;
-import com.quantisen.boisson.application.stockage.dtos.LigneOperationDto;
-import com.quantisen.boisson.application.stockage.dtos.LotDto;
-import com.quantisen.boisson.application.stockage.dtos.MouvementDto;
+import com.quantisen.boisson.web.boisson.dtos.BoissonDto;
+import com.quantisen.boisson.web.identite.dtos.IdentiteDto;
+import com.quantisen.boisson.web.stockage.dtos.LigneOperationDto;
+import com.quantisen.boisson.web.stockage.dtos.LotDto;
+import com.quantisen.boisson.web.stockage.dtos.MouvementDto;
 import com.quantisen.boisson.application.stockage.services.StockageService;
 import com.quantisen.boisson.domaine.identite.domainModel.Role;
 import com.quantisen.boisson.domaine.stockage.enums.TypeMouvement;

@@ -1,4 +1,4 @@
-package com.quantisen.boisson.application.identite.dtos;
+package com.quantisen.boisson.web.identite.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -71,4 +71,3 @@ public class IdentiteDto {
                 .build();
     }
 }
-

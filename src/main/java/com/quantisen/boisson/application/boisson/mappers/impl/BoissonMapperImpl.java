@@ -1,6 +1,6 @@
 package com.quantisen.boisson.application.boisson.mappers.impl;
 
-import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
+import com.quantisen.boisson.web.boisson.dtos.BoissonDto;
 import com.quantisen.boisson.application.boisson.mappers.BoissonMapper;
 import com.quantisen.boisson.domaine.boisson.domainModel.Boisson;
 import jakarta.enterprise.context.ApplicationScoped;
