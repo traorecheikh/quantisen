@@ -1,6 +1,6 @@
-package com.quantisen.boisson.web;
+package com.quantisen.boisson.web.boisson.controllers;
 
-import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
+import com.quantisen.boisson.web.boisson.dtos.BoissonDto;
 import com.quantisen.boisson.application.boisson.services.BoissonService;
 import com.quantisen.boisson.infrastructure.security.AllowedRoles;
 import jakarta.enterprise.context.RequestScoped;

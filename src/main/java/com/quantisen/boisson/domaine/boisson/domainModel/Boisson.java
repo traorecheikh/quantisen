@@ -1,6 +1,6 @@
 package com.quantisen.boisson.domaine.boisson.domainModel;
 
-import com.quantisen.boisson.application.boisson.dtos.BoissonDto;
+import com.quantisen.boisson.web.boisson.dtos.BoissonDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
